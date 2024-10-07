@@ -11,7 +11,11 @@ public class Spawner : MonoBehaviour
 
     private void Start() 
     {
-        Instantiate(pipePrefab);
+        var pos = transform.position;
+        pos.y += Random.Range(0, 4f);
+        pos.x += Random.Range(-1f, 1.1f);
+
+        Instantiate(pipePrefab, pos, Quaternion.identity);
     }
     
     void Update()

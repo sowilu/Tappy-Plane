@@ -1,13 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Fly : MonoBehaviour
 {
     public float jumpForce = 10;
 
+    public TextMeshProUGUI scoreText;
+
     private Rigidbody2D rb;
+    private int points = 0;
 
     private void Start() 
     {
@@ -36,5 +38,11 @@ public class Fly : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(0, 0, -30);
         }
+    }
+
+
+    private void OnTriggerExit2D(Collider2D other) 
+    {
+        scoreText.text = (++points).ToString("D4");
     }
 }
