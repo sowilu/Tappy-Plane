@@ -1,10 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public TextMeshProUGUI scoreText;
     public float jumpForce = 100;
+    public int score = 0;
 
     private Rigidbody2D rb;
 
@@ -38,4 +39,11 @@ public class Player : MonoBehaviour
            transform.rotation = Quaternion.Euler(0, 0, -30);
         }
     }
+
+    void OnTriggerExit2D(Collider2D col)
+    {
+        score++;
+        scoreText.text = score.ToString("D4");
+    }
+
 }
