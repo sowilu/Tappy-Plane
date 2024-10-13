@@ -3,9 +3,12 @@ using UnityEngine;
 
 public class Fly : MonoBehaviour
 {
+    public ScoreManager scoreManager;
     public float jumpForce = 100;
     public TextMeshProUGUI scoreText;
+    public AudioClip successSound;
 
+    private AudioSource audioSource;
     private Rigidbody2D rb;
     private int score = 0;
 
@@ -13,6 +16,7 @@ public class Fly : MonoBehaviour
     {
         //GetComponent - access any component attached to the same game object
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     
@@ -42,5 +46,12 @@ public class Fly : MonoBehaviour
     void OnTriggerExit2D(Collider2D col)
     {
         scoreText.text = (++score).ToString("D4");
+        audioSource.PlayOneShot(successSound);
+    }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        scoreManager.ShowScoreBoard(score);
+        gameObject.SetActive(false);
     }
 }
