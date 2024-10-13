@@ -1,13 +1,16 @@
 using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Fly : MonoBehaviour
 {
+    public ScoreBoard scoreBoard;
     public float jumpForce = 10;
-
     public TextMeshProUGUI scoreText;
+    public AudioClip successSound;
 
+    private AudioSource audioSource;
     private Rigidbody2D rb;
     private int points = 0;
 
@@ -15,6 +18,7 @@ public class Fly : MonoBehaviour
     {
         //Get Component - access any component on the game object
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -44,5 +48,21 @@ public class Fly : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other) 
     {
         scoreText.text = (++points).ToString("D4");
+
+        audioSource.PlayOneShot(successSound);
+
+        //audioSource.clip = successSound;
+        //audioSource.Play();
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) 
+    {
+        scoreBoard.ShowScoreBoard(points);
+
+        //deactivate the game object
+        gameObject.SetActive(false);
+
+        //or deactivate the component fly script
+        //enabled = false;
     }
 }
