@@ -1,18 +1,24 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    public ScoreManager scoreManager;
     public TextMeshProUGUI scoreText;
     public float jumpForce = 100;
     public int score = 0;
+    public AudioClip successSound;
 
+
+    private AudioSource audioSource;
     private Rigidbody2D rb;
 
     void Start()
     {
         //GetComponent can get the component attached to the same GameObject
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -44,6 +50,18 @@ public class Player : MonoBehaviour
     {
         score++;
         scoreText.text = score.ToString("D4");
+        audioSource.PlayOneShot(successSound);
+    }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        scoreManager.ShowScoreBoard(score);
+        gameObject.SetActive(false);//deactivate the player
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 }
