@@ -3,16 +3,20 @@ using TMPro;
 
 public class Player : MonoBehaviour
 {
+    public ScoreBoard scoreBoard;
     public float jumpForce = 100;
     public int points = 0;
     public TextMeshProUGUI scoreText;
+    public AudioClip successSound;
 
+    private AudioSource audioSource;
     private Rigidbody2D rb;
     
     void Start()
     {
         //Get components - gets any component attached to the game object
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
     }
 
 
@@ -43,6 +47,16 @@ public class Player : MonoBehaviour
     void OnTriggerExit2D(Collider2D other)
     {
         //Update the score
-        scoreText.text = (++points).ToString();
+        scoreText.text = (++points).ToString("D4");
+
+        //Play the success sound
+        audioSource.PlayOneShot(successSound);
+    }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        //Show the score board
+        scoreBoard.ShowScoreBoard(points);
+        gameObject.SetActive(false);
     }
 }
