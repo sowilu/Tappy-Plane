@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     public float jumpForce = 100;
     public int score = 0;
     public AudioClip successSound;
+    public AudioClip hitSound;
+    public AudioClip fallSound;
 
 
     private AudioSource audioSource;
@@ -27,6 +29,7 @@ public class Player : MonoBehaviour
         {
             if(rb.velocity.y < 0)
             {
+                audioSource.PlayOneShot(hitSound);
                 //impulse is a force that is applied instantly, like throwing a ball
                 rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             }
@@ -55,8 +58,15 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
+        audioSource.PlayOneShot(fallSound);
         scoreManager.ShowScoreBoard(score);
+        Invoke("Die", 0.5f);//Invoke a method after a delay
+    }
+
+    void Die()
+    {
         gameObject.SetActive(false);//deactivate the player
+        //enabled = false; //deactivate the script
     }
 
     public void RestartGame()
