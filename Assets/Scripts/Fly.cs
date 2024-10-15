@@ -7,6 +7,8 @@ public class Fly : MonoBehaviour
     public float jumpForce = 100;
     public TextMeshProUGUI scoreText;
     public AudioClip successSound;
+    public AudioClip hitSound;
+    public AudioClip fallSound;
 
     private AudioSource audioSource;
     private Rigidbody2D rb;
@@ -50,6 +52,21 @@ public class Fly : MonoBehaviour
     }
 
     void OnCollisionEnter2D(Collision2D col)
+    {
+        audioSource.PlayOneShot(hitSound);
+        //scoreManager.ShowScoreBoard(score);
+        //gameObject.SetActive(false);
+        //enabled = false;//disables this script
+        Invoke("Fall", 0.5f);
+    }
+
+    void Fall()
+    {
+        audioSource.PlayOneShot(fallSound);
+        Invoke("Die", 0.5f);
+    }
+
+    void Die()
     {
         scoreManager.ShowScoreBoard(score);
         gameObject.SetActive(false);

@@ -557,6 +557,8 @@ MonoBehaviour:
   jumpForce: 10
   scoreText: {fileID: 1616207758}
   successSound: {fileID: 8300000, guid: fbf78fd99a92041ab8ae569c09a8e26c, type: 3}
+  hitSound: {fileID: 8300000, guid: fffb029d80fb14313888398174697564, type: 3}
+  fallSound: {fileID: 8300000, guid: 36704bde522af4d8a92b71cd9c4e058f, type: 3}
 --- !u!95 &446785931
 Animator:
   serializedVersion: 5
